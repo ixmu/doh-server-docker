@@ -60,7 +60,7 @@ jobs:
       - name: Check whether this image version is already published
         id: image
         env:
-          IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/doh-server-docker
+          IMAGE: ${{ secrets.DOCKERHUB_USERNAME }}/doh-server
           VERSION: ${{ steps.release.outputs.version }}
         run: |
           if docker buildx imagetools inspect "${IMAGE}:${VERSION}" >/dev/null 2>&1; then
@@ -84,5 +84,5 @@ jobs:
           build-args: |
             VERSION=${{ steps.release.outputs.version }}
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/doh-server-docker:${{ steps.release.outputs.version }}
-            ${{ secrets.DOCKERHUB_USERNAME }}/doh-server-docker:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/doh-server:${{ steps.release.outputs.version }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/doh-server:latest
