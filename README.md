@@ -10,11 +10,11 @@ A fast and secure DoH (DNS-over-HTTPS) and ODoH (Oblivious DoH) server.
 
 #搭配nginx反向代理使用
 
-```podman
---name doh-server \
+```podman run -d \
+  --name doh-server \
   --restart=unless-stopped \
-  -p 3000:3000 \
-  -e DOH_HOSTNAME=doh.explam.com \
+  -p 127.0.0.1:3000:3000 \
+  -e DOH_HOSTNAME=sdns.ixnic.net \
   -e DOH_SERVER_ADDRESS=8.8.8.8:53 \
   -e DOH_PATH=/dns-query \
   docker.io/xlousp/doh-server:latest
@@ -22,14 +22,13 @@ A fast and secure DoH (DNS-over-HTTPS) and ODoH (Oblivious DoH) server.
 
 #独立运行DOH服务器
 
-```podman
---name doh-server \
+```podman run -d \
+  --name doh-server \
   --restart=unless-stopped \
   -p 443:443 \
   -v /opt/doh-server/certs:/certs:ro,Z \
-  -e DOH_HOSTNAME=doh.explam.com \
+  -e DOH_HOSTNAME=sdns.ixnic.net \
   -e DOH_SERVER_ADDRESS=8.8.8.8:53 \
-  -e DOH_LISTEN_ADDRESS=0.0.0.0:443 \
   -e DOH_PATH=/dns-query \
   -e DOH_TLS_CERT_PATH=/certs/fullchain.pem \
   -e DOH_TLS_CERT_KEY_PATH=/certs/privkey.pem \

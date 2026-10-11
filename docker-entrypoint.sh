@@ -1,10 +1,19 @@
 #!/bin/sh
 set -eu
 
+if [ -n "${DOH_TLS_CERT_PATH:-}" ] || [ -n "${DOH_TLS_CERT_KEY_PATH:-}" ]; then
+  : "${DOH_TLS_CERT_PATH:?启用独立 HTTPS 时必须设置 DOH_TLS_CERT_PATH}"
+  : "${DOH_TLS_CERT_KEY_PATH:?启用独立 HTTPS 时必须设置 DOH_TLS_CERT_KEY_PATH}"
+
+  listen_address="${DOH_LISTEN_ADDRESS:-0.0.0.0:443}"
+else
+  listen_address="${DOH_LISTEN_ADDRESS:-0.0.0.0:3000}"
+fi
+
 set -- \
   -H "${DOH_HOSTNAME:?请设置 DOH_HOSTNAME}" \
   -u "${DOH_SERVER_ADDRESS:-9.9.9.9:53}" \
-  -l "${DOH_LISTEN_ADDRESS:-0.0.0.0:3000}" \
+  -l "${listen_address}" \
   -p "${DOH_PATH:-/dns-query}"
 
 if [ -n "${DOH_PUBLIC_ADDRESS:-}" ]; then
