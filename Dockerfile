@@ -20,7 +20,10 @@ RUN apt-get update \
     && apt-get purge -y --auto-remove curl bzip2 \
     && rm -rf /var/lib/apt/lists/*
 
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+RUN chmod 0755 /usr/local/bin/docker-entrypoint
+
 EXPOSE 3000
 
-ENTRYPOINT ["doh-proxy"]
-CMD ["--help"]
+ENTRYPOINT ["docker-entrypoint"]
+CMD []
