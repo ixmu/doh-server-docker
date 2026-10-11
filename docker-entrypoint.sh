@@ -35,4 +35,4 @@ if [ -n "${DOH_TIMEOUT:-}" ]; then
   set -- "$@" -t "$DOH_TIMEOUT"
 fi
 
-exec doh-proxy "$@" "$@"
+exec doh-proxy "$@"
